@@ -6,7 +6,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 // Connect to a test database
 beforeAll(async () => {
-  await mongoose.connect(process.env.MONGO_URI);
+  await mongoose.connect(process.env.MONGO_TEST_URI);
 });
 
 // Clean up the database after each test
@@ -60,8 +60,8 @@ describe("User Service", () => {
       password: "password123",
     });
 
-    expect(res.body).toHaveProperty("token");
     expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty("token");
   });
 
   it("should fail to log in with incorrect password", async () => {
