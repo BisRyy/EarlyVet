@@ -1,0 +1,10 @@
+flask
+flask-restful
+flask-cors
+numpy
+scikit-learn
+pytest
+pytest-flask
+pytest-mock
+pymongo
+dnspython
