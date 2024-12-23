@@ -55,8 +55,8 @@ describe("Sensor Data Processing Service", () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body.length).toBe(2);
-    expect(res.body[0]).toHaveProperty("temperature", 38.5);
-    expect(res.body[1]).toHaveProperty("temperature", 39.0);
+    expect(res.body[1]).toHaveProperty("temperature", 38.5);
+    expect(res.body[0]).toHaveProperty("temperature", 39.0);
   });
 
   it("should fetch the latest sensor data for all collars", async () => {
