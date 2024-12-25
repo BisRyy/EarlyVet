@@ -23,15 +23,15 @@ jobs:
         cd usermanagement
         npm install
       env:
-        MONGO_URI: ${{ secrets.MONGO_URI }}
-        MONGO_TEST_URI: ${{ secrets.MONGO_TEST_URI }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        MONGO_URI: mongodb+srv://earlyvet:32mCb6zwTvpOFYR1@earlyvet.n6njn.mongodb.net/main?retryWrites=true&w=majority&appName=Earlyvet
+        MONGO_TEST_URI: mongodb+srv://earlyvet:32mCb6zwTvpOFYR1@earlyvet.n6njn.mongodb.net/test?retryWrites=true&w=majority&appName=Earlyvet
+        JWT_SECRET: JT2hwPASjGzNbKw7jLno9NbXc1njZrTG
 
     - name: Run tests
       run: |
         cd usermanagement
         npm test
       env:
-        MONGO_URI: ${{ secrets.MONGO_URI }}
-        MONGO_TEST_URI: ${{ secrets.MONGO_TEST_URI }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        MONGO_URI: mongodb+srv://earlyvet:32mCb6zwTvpOFYR1@earlyvet.n6njn.mongodb.net/main?retryWrites=true&w=majority&appName=Earlyvet
+        MONGO_TEST_URI: mongodb+srv://earlyvet:32mCb6zwTvpOFYR1@earlyvet.n6njn.mongodb.net/test?retryWrites=true&w=majority&appName=Earlyvet
+        JWT_SECRET: JT2hwPASjGzNbKw7jLno9NbXc1njZrTG
