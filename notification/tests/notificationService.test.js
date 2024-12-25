@@ -16,7 +16,7 @@ describe("Notification Service (without mocking)", () => {
   // SMS Notification Test
   it("should send an SMS notification successfully", async () => {
     const response = await request(app).post("/api/notifications/sms").send({
-      to: "+251925698349", // Replace with a verified Twilio recipient phone number
+      to: "+251925698348", // Replace with a verified Twilio recipient phone number
       message: "This is a test SMS sent from the Notification Service.",
     });
 

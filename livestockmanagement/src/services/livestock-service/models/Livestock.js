@@ -8,7 +8,7 @@ const livestockSchema = new mongoose.Schema(
     healthStatus: { type: String, default: "healthy" },
     collarId: { type: String, required: true, unique: true },
     ownerId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "User",
       required: true,
     },
