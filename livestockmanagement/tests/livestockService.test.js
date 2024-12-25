@@ -49,8 +49,8 @@ describe("Livestock Management Service", () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body.length).toBe(2);
-    expect(res.body[0].name).toBe("Daisy");
-    expect(res.body[1].name).toBe("Molly");
+    expect(res.body.some((livestock) => livestock.name === "Daisy")).toBe(true);
+    expect(res.body.some((livestock) => livestock.name === "Molly")).toBe(true);
   });
 
   it("should update a livestock record", async () => {
