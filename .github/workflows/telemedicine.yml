@@ -1,0 +1,37 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Run Telemedicine Management Tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: |
+        cd telemedicine
+        npm install
+      env:
+        MONGO_URI: mongodb+srv://earlyvet:32mCb6zwTvpOFYR1@earlyvet.n6njn.mongodb.net/main?retryWrites=true&w=majority&appName=Earlyvet
+        MONGO_TEST_URI: mongodb+srv://earlyvet:32mCb6zwTvpOFYR1@earlyvet.n6njn.mongodb.net/test?retryWrites=true&w=majority&appName=Earlyvet
+        JWT_SECRET: JT2hwPASjGzNbKw7jLno9NbXc1njZrTG
+
+    - name: Run tests
+      run: |
+        cd telemedicine
+        npm test
+      env:
+        MONGO_URI: mongodb+srv://earlyvet:32mCb6zwTvpOFYR1@earlyvet.n6njn.mongodb.net/main?retryWrites=true&w=majority&appName=Earlyvet
+        MONGO_TEST_URI: mongodb+srv://earlyvet:32mCb6zwTvpOFYR1@earlyvet.n6njn.mongodb.net/test?retryWrites=true&w=majority&appName=Earlyvet
+        JWT_SECRET: JT2hwPASjGzNbKw7jLno9NbXc1njZrTG
