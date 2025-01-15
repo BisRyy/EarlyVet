@@ -82,10 +82,27 @@ const loginUser = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({ token });
+    res.status(200).json({ token, user });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+};
+
+const verifyToken = async (req, res) => {
+  const token = req.header("Authorization")
+  if (!token) return res.status(401).json({ message: "Access denied" });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    res.status(200).json({ message: "Token is valid", user: req.user });
+  } catch (err) {
+    res.status(400).json({ message: "Invalid token" });
+  }
+};
+
+const checkHealth = (req, res) => {
+  res.status(200).json({ message: "User Service is running" });
 };
 
 module.exports = {
@@ -95,4 +112,6 @@ module.exports = {
   updateUser,
   deleteUser,
   loginUser,
+  verifyToken,
+  checkHealth,
 };
