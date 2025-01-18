@@ -65,9 +65,24 @@ const deleteLivestock = async (req, res) => {
   }
 };
 
+const getAllLivestock = async (req, res) => {
+  try {
+    const livestock = await Livestock.find();
+    res.status(200).json(livestock);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const checkHealth = (req, res) => {
+  res.status(200).json({ message: "User Service is running" });
+};
+
 module.exports = {
   createLivestock,
   getLivestockByOwner,
   updateLivestock,
   deleteLivestock,
+  getAllLivestock,
+  checkHealth,
 };

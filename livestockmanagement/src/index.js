@@ -11,5 +11,5 @@ const app = express();
 // Integrate livestock Service
 app.use(livestockService);
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
