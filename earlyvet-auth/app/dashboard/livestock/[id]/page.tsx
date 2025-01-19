@@ -19,29 +19,16 @@ import {
   getSensorReadings,
 } from "@/lib/sensors-api";
 import { getLivestockById } from "@/lib/livestock-api";
+import { socket } from "@/lib/socket-client";
 
 const dummyReadings = {
-  temperature: Array.from({ length: 24 }, (_, i) => ({
-    _id: `t${i}`,
-    sensorId: "s789",
-    value: 38.5 + Math.sin(i / 3) * 0.3,
-    timestamp: new Date(Date.now() - (23 - i) * 3600000).toISOString(),
-    type: "temperature",
-  })),
-  heartRate: Array.from({ length: 24 }, (_, i) => ({
-    _id: `h${i}`,
-    sensorId: "s790",
-    value: 65 + Math.sin(i / 2) * 5,
-    timestamp: new Date(Date.now() - (23 - i) * 3600000).toISOString(),
-    type: "heart-rate",
-  })),
-  activity: Array.from({ length: 24 }, (_, i) => ({
-    _id: `a${i}`,
-    sensorId: "s791",
-    value: 250 + Math.sin(i / 4) * 100,
-    timestamp: new Date(Date.now() - (23 - i) * 3600000).toISOString(),
-    type: "activity",
-  })),
+  deviceId: "sensor-002",
+  temperature: 25.37,
+  heartRate: 95,
+  activity: 28,
+  bloodPressure: 93,
+  location: "6.936892,-161.126739",
+  timestamp: "2025-01-19T21:48:11.701Z",
 };
 
 export default function LivestockDetailPage() {
@@ -49,27 +36,53 @@ export default function LivestockDetailPage() {
   const { token } = useAuth();
   const { toast } = useToast();
   const [livestock, setLivestock] = useState<LivestockDetails | null>(null);
-  const [readings, setReadings] = useState<{
-    temperature: SensorReading[];
-    heartRate: SensorReading[];
-    activity: SensorReading[];
-  }>(dummyReadings);
+  const [collarId, setCollarId] = useState<string | null>(null);
+  const [readings, setReadings] = useState<SensorReading | null>(null);
+
   const [prediction, setPrediction] = useState<DiseasePrediction | null>(null);
   const [loading, setLoading] = useState(true);
   const [predicting, setPredicting] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     if (token && id) {
       fetchLivestockDetails();
-      const interval = setInterval(fetchSensorReadings, 30000); // Update every 30 seconds
-      return () => clearInterval(interval);
     }
   }, [token, id]);
+
+  useEffect(() => {
+    if (socket.connected && collarId) {
+      onConnect();
+    }
+
+    function onConnect() {
+      setIsConnected(true);
+      console.log("Connected to socket server", collarId);
+      socket.on("sensorData", (data: any) => {
+        if (data.deviceId === collarId) {
+          setReadings(data);
+        }
+      });
+    }
+
+    function onDisconnect() {
+      setIsConnected(false);
+    }
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+    };
+  }, [isConnected, collarId]);
 
   async function fetchLivestockDetails() {
     try {
       const response = await getLivestockById(id as string);
       setLivestock(response);
+      setCollarId(response.collarId);
     } catch (error) {
       toast({
         title: "Error",
@@ -84,7 +97,7 @@ export default function LivestockDetailPage() {
   async function fetchSensorReadings() {
     try {
       const response = await getLivestockSensorData(id as string);
-      setReadings(response);
+      // setReadings(response);
     } catch (error) {
       console.error("Failed to fetch sensor readings");
     }
@@ -133,7 +146,9 @@ export default function LivestockDetailPage() {
       <div className="container mx-auto py-10 space-y-8">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">{livestock.name}</h1>
+            <h1 className="text-3xl font-bold">
+              {livestock.name} {isConnected ? "🟢" : "🔴"}
+            </h1>
             <p className="text-muted-foreground">
               ID: {livestock._id} • Type: {livestock.type} • Age:{" "}
               {livestock.dateOfBirth} years
@@ -186,7 +201,7 @@ export default function LivestockDetailPage() {
           <PredictionCard prediction={prediction} />
         </div>
 
-        {/* <MedicalHistory livestock={livestock} /> */}
+        <MedicalHistory livestock={livestock} />
       </div>
     </ProtectedRoute>
   );

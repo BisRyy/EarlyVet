@@ -43,11 +43,13 @@ export type CreateSensorData = Omit<
 export type UpdateSensorData = Partial<CreateSensorData>;
 
 export interface SensorReading {
-  _id: string;
-  sensorId: string;
-  value: number;
+  deviceId: string;
+  temperature: number;
+  heartRate: number;
+  activity: number;
+  bloodPressure: number;
+  location: string;
   timestamp: string;
-  type: Sensor["type"];
 }
 
 export interface DiseasePrediction {

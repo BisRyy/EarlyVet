@@ -2,43 +2,67 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SensorReading } from "@/lib/types";
-import { Heart, ThermometerSun, Activity } from "lucide-react";
+import {
+  Heart,
+  ThermometerSun,
+  Activity,
+  Paintbrush,
+  LocateIcon,
+  Timer,
+} from "lucide-react";
 import { motion } from "framer-motion";
 
 interface VitalStatsProps {
-  readings: {
-    temperature: SensorReading[];
-    heartRate: SensorReading[];
-    activity: SensorReading[];
-  };
+  readings: SensorReading | null;
 }
 
 export function VitalStats({ readings }: VitalStatsProps) {
-  const getLatestReading = (data: SensorReading[]) => {
-    return data.length > 0 ? data[data.length - 1].value : 0;
-  };
+  // if (!readings) {
+  //   return null;
+  // }
 
   const stats = [
     {
       title: "Temperature",
-      value: getLatestReading(readings.temperature),
+      value: readings?.temperature || 0,
       unit: "°C",
       icon: ThermometerSun,
       color: "text-orange-500",
     },
     {
       title: "Heart Rate",
-      value: getLatestReading(readings.heartRate),
+      value: readings?.heartRate || 0,
       unit: "bpm",
       icon: Heart,
       color: "text-red-500",
     },
     {
       title: "Activity Level",
-      value: getLatestReading(readings.activity),
+      value: readings?.activity || 0,
       unit: "steps/hr",
       icon: Activity,
       color: "text-blue-500",
+    },
+    {
+      title: "Blood Pressure",
+      value: readings?.bloodPressure || 0,
+      unit: "mmHg",
+      icon: Paintbrush,
+      color: "text-red-500",
+    },
+    {
+      title: "Location",
+      value: readings?.location || "Unknown",
+      unit: "",
+      icon: LocateIcon,
+      color: "text-red-500",
+    },
+    {
+      title: "Last Reading",
+      value: new Date(readings?.timestamp || "").toLocaleString(),
+      unit: "",
+      icon: Timer,
+      color: "text-red-500",
     },
   ];
 
@@ -57,7 +81,7 @@ export function VitalStats({ readings }: VitalStatsProps) {
               transition={{ delay: index * 0.1 }}
               className="text-2xl font-bold"
             >
-              {stat.value.toFixed(1)} {stat.unit}
+              {stat.value} {stat.unit}
             </motion.div>
           </CardContent>
         </Card>

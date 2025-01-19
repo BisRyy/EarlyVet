@@ -123,15 +123,15 @@ export async function generatePrediction(
   livestockId: string,
   token: string
 ): Promise<DiseasePrediction> {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_PREDICTION_SERVICE}/predictions/generate/${livestockId}`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  // const response = await fetch(
+  //   `${process.env.NEXT_PUBLIC_PREDICTION_SERVICE}/predictions/generate/${livestockId}`,
+  //   {
+  //     method: "POST",
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   }
+  // );
 
   // if (!response.ok) {
   //   throw new Error("Failed to generate prediction");

@@ -38,15 +38,17 @@ export function MedicalHistory({ livestock }: MedicalHistoryProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {livestock.medicalHistory.map((record, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      {new Date(record.date).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>{record.condition}</TableCell>
-                    <TableCell>{record.treatment}</TableCell>
-                  </TableRow>
-                ))}
+                {livestock.medicalHistory
+                  ? livestock.medicalHistory.map((record, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          {new Date(record.date).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell>{record.condition}</TableCell>
+                        <TableCell>{record.treatment}</TableCell>
+                      </TableRow>
+                    ))
+                  : null}
               </TableBody>
             </Table>
           </TabsContent>
@@ -59,14 +61,16 @@ export function MedicalHistory({ livestock }: MedicalHistoryProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {livestock.vaccinationHistory.map((record, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      {new Date(record.date).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>{record.name}</TableCell>
-                  </TableRow>
-                ))}
+                {livestock.vaccinationHistory
+                  ? livestock.vaccinationHistory.map((record, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          {new Date(record.date).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell>{record.name}</TableCell>
+                      </TableRow>
+                    ))
+                  : null}
               </TableBody>
             </Table>
           </TabsContent>
