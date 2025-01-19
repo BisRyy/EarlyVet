@@ -3,12 +3,25 @@ const Livestock = require("../models/Livestock");
 // Create a new livestock record
 const createLivestock = async (req, res) => {
   try {
-    const { name, type, age, healthStatus, collarId, ownerId } = req.body;
+    const {
+      name,
+      type,
+      dateOfBirth,
+      breed,
+      weight,
+      gender,
+      healthStatus,
+      collarId,
+      ownerId,
+    } = req.body;
 
     const livestock = new Livestock({
       name,
       type,
-      age,
+      dateOfBirth,
+      breed,
+      weight,
+      gender,
       healthStatus,
       collarId,
       ownerId,
@@ -27,6 +40,21 @@ const getLivestockByOwner = async (req, res) => {
     const { ownerId } = req.params;
 
     const livestock = await Livestock.find({ ownerId });
+    res.status(200).json(livestock);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Get a livestock record by ID
+const getLivestock = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const livestock = await Livestock.findById(id);
+    if (!livestock)
+      return res.status(404).json({ message: "Livestock not found" });
+
     res.status(200).json(livestock);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -85,4 +113,5 @@ module.exports = {
   deleteLivestock,
   getAllLivestock,
   checkHealth,
+  getLivestock,
 };
