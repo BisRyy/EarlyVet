@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth
+  name: earlyvet
   labels:
-    app: auth
+    app: earlyvet
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth
+      app: earlyvet
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -16,15 +16,15 @@ spec:
   template:
     metadata:
       labels:
-        app: auth
+        app: earlyvet
     spec:
       containers:
-        - name: auth
-          image: bisry/earlyvet-user
+        - name: earlyvet
+          image: bisry/earlyvet
           ports:
-            - containerPort: 5000
+            - containerPort: 3000
           envFrom:
             - configMapRef:
-                name: auth-configmap
+                name: earlyvet-configmap
             - secretRef:
-                name: auth-secret
+                name: earlyvet-secret

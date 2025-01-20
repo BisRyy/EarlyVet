@@ -3,7 +3,7 @@ const amqp = require("amqplib");
 
 async function sendRandomData() {
   const queue = "sensor_data";
-  const rabbitMQUrl = "amqp://localhost";
+  const rabbitMQUrl = "amqp://rabbitmq";
 
   try {
     // Connect to RabbitMQ

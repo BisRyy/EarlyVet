@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth
+  name: sensorsender
   labels:
-    app: auth
+    app: sensorsender
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth
+      app: sensorsender
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -16,15 +16,15 @@ spec:
   template:
     metadata:
       labels:
-        app: auth
+        app: sensorsender
     spec:
       containers:
-        - name: auth
-          image: bisry/earlyvet-user
+        - name: sensorsender
+          image: bisry/earlyvet-sensorsender
           ports:
-            - containerPort: 5000
+            - containerPort: 5005
           envFrom:
             - configMapRef:
-                name: auth-configmap
+                name: sensorsender-configmap
             - secretRef:
-                name: auth-secret
+                name: sensorsender-secret

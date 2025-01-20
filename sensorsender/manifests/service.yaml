@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sensorsender
+spec:
+  selector:
+    app: sensorsender
+  type: ClusterIP
+  ports:
+    - port: 5005
+      targetPort: 5005
+      protocol: TCP

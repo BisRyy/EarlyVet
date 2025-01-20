@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth
+  name: livestock
   labels:
-    app: auth
+    app: livestock
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth
+      app: livestock
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -16,15 +16,15 @@ spec:
   template:
     metadata:
       labels:
-        app: auth
+        app: livestock
     spec:
       containers:
-        - name: auth
-          image: bisry/earlyvet-user
+        - name: livestock
+          image: bisry/earlyvet-livestock
           ports:
-            - containerPort: 5000
+            - containerPort: 5002
           envFrom:
             - configMapRef:
-                name: auth-configmap
+                name: livestock-configmap
             - secretRef:
-                name: auth-secret
+                name: livestock-secret
