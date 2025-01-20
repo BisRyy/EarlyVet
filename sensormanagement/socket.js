@@ -2,7 +2,7 @@
 const io = require("socket.io-client");
 
 // Connect to the WebSocket server
-const socket = io("http://localhost:3001");
+const socket = io("http://localhost:5004");
 
 // Listen for sensor data
 socket.on("sensorData", (data) => {

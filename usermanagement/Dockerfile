@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Expose the service port
-EXPOSE 5000
+EXPOSE 5001
 
 # Start the application
 RUN npm test

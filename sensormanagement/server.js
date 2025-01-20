@@ -109,7 +109,7 @@ io.on("connection", (socket) => {
 });
 
 // Start the server
-const PORT = 3001;
+const PORT = 5004;
 server.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
