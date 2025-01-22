@@ -22,7 +22,7 @@ spec:
         - name: auth
           image: bisry/earlyvet-user
           ports:
-            - containerPort: 5000
+            - containerPort: 5001
           envFrom:
             - configMapRef:
                 name: auth-configmap
