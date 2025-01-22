@@ -46,7 +46,7 @@ const SensorData = mongoose.model("SensorData", sensorSchema);
 
 // RabbitMQ setup
 const queue = "sensor_data";
-const rabbitMQUrl = "amqp://rabbitmq";
+const rabbitMQUrl = "amqp://localhost";
 
 async function receiveSensorData() {
   try {

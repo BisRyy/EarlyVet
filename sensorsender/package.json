@@ -5,7 +5,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "amqplib": "^0.10.5"
+    "amqplib": "^0.10.5",
+    "dotenv": "^16.4.7",
+    "mongoose": "^8.9.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
