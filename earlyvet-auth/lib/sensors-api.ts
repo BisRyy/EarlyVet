@@ -144,6 +144,7 @@ export async function generatePrediction(
   return {
     id: "prediction123",
     livestockId,
+    status: "pending",
     disease: "Sample Disease",
     probability: 0.8,
     symptoms: [

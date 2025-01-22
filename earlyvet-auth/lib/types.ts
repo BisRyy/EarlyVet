@@ -54,6 +54,7 @@ export interface SensorReading {
 
 export interface DiseasePrediction {
   id: string;
+  status: "pending" | "completed";
   livestockId: string;
   disease: string;
   probability: number;

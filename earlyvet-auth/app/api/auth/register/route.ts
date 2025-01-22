@@ -10,13 +10,16 @@ export async function POST(request: NextRequest) {
   try {
     const data: RegisterData = await request.json();
 
-    const response = await fetch(`http://auth:5001/api/users/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      `http://${process.env.AUTH_SERVICE_HOST}:5001/api/users/register`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
 
     const result = await response.json();
 

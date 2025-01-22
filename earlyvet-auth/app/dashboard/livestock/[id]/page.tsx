@@ -14,11 +14,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { DiseasePrediction, LivestockDetails } from "@/lib/types";
 import { SensorReading } from "@/lib/types";
 import {
+  getLivestockById,
   generatePrediction,
-  getLivestockSensorData,
-  getSensorReadings,
-} from "@/lib/sensors-api";
-import { getLivestockById } from "@/lib/livestock-api";
+  getLivestockPredictions,
+} from "@/lib/livestock-api";
 import { socket } from "@/lib/socket-client";
 
 const dummyReadings = {
@@ -92,21 +91,20 @@ export default function LivestockDetailPage() {
     } finally {
       setLoading(false);
     }
-  }
 
-  async function fetchSensorReadings() {
     try {
-      const response = await getLivestockSensorData(id as string);
-      // setReadings(response);
+      const data = await getLivestockPredictions(id as string);
+      console.log(data);
+      setPrediction(data);
     } catch (error) {
-      console.error("Failed to fetch sensor readings");
+      console.log("Failed to fetch predictions");
     }
   }
 
   async function handleGeneratePrediction() {
     setPredicting(true);
     try {
-      const data = await generatePrediction(id as string, token!);
+      const data = await generatePrediction(id as string);
       setPrediction(data);
       toast({
         title: "Success",
@@ -157,10 +155,12 @@ export default function LivestockDetailPage() {
           <Button
             size="lg"
             onClick={handleGeneratePrediction}
-            disabled={predicting}
+            disabled={predicting || prediction?.status === "pending"}
           >
             {predicting
               ? "Generating Prediction..."
+              : prediction?.status === "pending"
+              ? "Prediction in progress"
               : "Generate Disease Prediction"}
           </Button>
         </div>

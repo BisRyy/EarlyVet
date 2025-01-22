@@ -6,17 +6,20 @@ interface LoginData {
 }
 
 export async function POST(request: NextRequest) {
-  console.log(`http://auth:5001/api/users/login`);
+  console.log(`http://${process.env.AUTH_SERVICE_HOST}:5001/api/users/login`);
   try {
     const data: LoginData = await request.json();
 
-    const response = await fetch(`http://auth:5001/api/users/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      `http://${process.env.AUTH_SERVICE_HOST}:5001/api/users/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
 
     const result = await response.json();
 

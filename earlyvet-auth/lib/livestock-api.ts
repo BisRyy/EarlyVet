@@ -1,5 +1,4 @@
 import type {
-  Livestock,
   CreateLivestockData,
   UpdateLivestockData,
   LivestockResponse,
@@ -73,4 +72,14 @@ export async function deleteLivestock(id: string): Promise<void> {
   await apiFetch(`${id}`, {
     method: "DELETE",
   });
+}
+
+export async function generatePrediction(id: string): Promise<any> {
+  return apiFetch(`/predict/${id}`, {
+    method: "POST",
+  });
+}
+
+export async function getLivestockPredictions(id: string): Promise<any> {
+  return apiFetch(`/predict/${id}`);
 }

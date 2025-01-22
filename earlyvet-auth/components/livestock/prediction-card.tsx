@@ -30,6 +30,30 @@ export function PredictionCard({ prediction }: PredictionCardProps) {
       </Card>
     );
 
+  if (prediction.status === "pending") {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between">
+            Disease Prediction
+            <span className="text-sm text-muted-foreground">
+              {new Date(prediction.timestamp).toLocaleString()}
+            </span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center text-muted-foreground">
+            Prediction in progress...
+          </div>
+
+          <div className="text-center text-muted-foreground">
+            You will be notified through email when the prediction is ready.
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   const severity =
     prediction.probability > 0.7
       ? "high"
