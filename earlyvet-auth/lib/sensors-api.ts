@@ -7,9 +7,13 @@ import {
   CreateSensorData,
   SensorReading,
   DiseasePrediction,
+  SensorValue,
 } from "./types";
 
-const API_URL = process.env.NEXT_PUBLIC_SENSORS_SERVICE;
+const API_URL =
+  process.env.SENSORSERVER_SERVICE_HOST +
+    ":" +
+    process.env.SENSORSERVER_SERVICE_PORT || "sensorserver.com";
 
 export async function getLivestock(): Promise<Livestock[]> {
   const storedUser = localStorage.getItem("user");
@@ -68,7 +72,7 @@ export async function createSensor(data: CreateSensorData): Promise<Sensor> {
 
 export async function getSensorReadings(
   sensorId: string
-): Promise<SensorReading[]> {
+): Promise<SensorValue[]> {
   return [
     {
       _id: "reading1",
@@ -159,9 +163,9 @@ export async function generatePrediction(
 }
 
 export async function getLivestockSensorData(livestockId: string): Promise<{
-  temperature: SensorReading[];
-  heartRate: SensorReading[];
-  activity: SensorReading[];
+  temperature: SensorValue[];
+  heartRate: SensorValue[];
+  activity: SensorValue[];
 }> {
   return {
     temperature: Array.from({ length: 24 }, (_, i) => ({

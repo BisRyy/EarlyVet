@@ -28,7 +28,7 @@ const formSchema = z.object({
   breed: z.string().min(2).max(50),
   gender: z.enum(["male", "female"]),
   healthStatus: z.enum(["healthy", "sick", "critical"]),
-  dateOfBirth: z.string().optional(),
+  dateOfBirth: z.string(),
   weight: z.number().min(0).max(1000),
   collarId: z.string().min(2).max(50),
   ownerId: z.string(),

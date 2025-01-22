@@ -1,6 +1,8 @@
 interface AuthResponse {
   token: string;
   user: {
+    role: string;
+    _id: string;
     id: string;
     name: string;
     email: string;
@@ -19,17 +21,13 @@ interface LoginData {
 }
 
 export async function register(data: RegisterData): Promise<AuthResponse> {
-  console.log("registering user", data);
-
-  const response = await fetch(`${process.env.NEXT_PUBLIC_AUTH_SERVICE}/register`, {
+  const response = await fetch("/api/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
   });
-
-  console.log(response);
 
   if (!response.ok) {
     const error = await response.json();
@@ -40,18 +38,13 @@ export async function register(data: RegisterData): Promise<AuthResponse> {
 }
 
 export async function login(data: LoginData): Promise<AuthResponse> {
-  console.log(process.env.NEXT_PUBLIC_AUTH_SERVICE);
-
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_AUTH_SERVICE}/login`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    }
-  );
+  const response = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
 
   if (!response.ok) {
     const error = await response.json();

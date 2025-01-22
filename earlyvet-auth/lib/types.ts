@@ -21,7 +21,7 @@ export type UpdateLivestockData = Partial<CreateLivestockData>;
 
 export interface LivestockResponse {
   message: string;
-  livestock: Livestock;
+  livestock: LivestockDetails;
 }
 
 export interface Sensor {
@@ -73,3 +73,11 @@ export interface LivestockDetails extends Livestock {
     treatment: string;
   }[];
 }
+
+export type SensorValue = {
+  _id: string;
+  sensorId: string;
+  value: number;
+  timestamp: string;
+  type: string;
+};

@@ -1,4 +1,4 @@
-import {
+import type {
   Livestock,
   CreateLivestockData,
   UpdateLivestockData,
@@ -6,20 +6,38 @@ import {
   LivestockDetails,
 } from "./types";
 
-const API_URL = process.env.NEXT_PUBLIC_LIVESTOCK_SERVICE;
+async function apiFetch(
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<any> {
+  const token = localStorage.getItem("token");
 
-export async function getLivestock(): Promise<Livestock[]> {
-  const storedUser = localStorage.getItem("user");
-  const user = JSON.parse(storedUser || "{}");
-  console.log("user", user);
+  const headers = {
+    ...options.headers,
+    Authorization: `Bearer ${token}`,
+  };
+
+  const response = await fetch(`/api/livestock/${endpoint}`, {
+    ...options,
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new Error(`API request failed with status ${response.status}`);
+  }
+
+  if (response.status !== 204) {
+    return response.json();
+  }
+}
+
+export async function getLivestock(): Promise<LivestockDetails[]> {
   return apiFetch("");
 }
 
-export async function getLivestockByOwner(): Promise<Livestock[]> {
-  const storedUser = localStorage.getItem("user");
-  const user = JSON.parse(storedUser || "{}");
-  console.log("user", user);
-  return apiFetch(`/owner/${user._id}`);
+export async function getLivestockByOwner(): Promise<LivestockDetails[]> {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  return apiFetch(`owner/${user._id}`);
 }
 
 export async function getLivestockById(id: string): Promise<LivestockDetails> {
@@ -29,8 +47,6 @@ export async function getLivestockById(id: string): Promise<LivestockDetails> {
 export async function createLivestock(
   data: CreateLivestockData
 ): Promise<LivestockResponse> {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  console.log("users", user);
   return apiFetch("", {
     method: "POST",
     headers: {
@@ -43,7 +59,7 @@ export async function createLivestock(
 export async function updateLivestock(
   id: string,
   data: UpdateLivestockData
-): Promise<Livestock> {
+): Promise<LivestockDetails> {
   return apiFetch(`${id}`, {
     method: "PUT",
     headers: {
@@ -57,29 +73,4 @@ export async function deleteLivestock(id: string): Promise<void> {
   await apiFetch(`${id}`, {
     method: "DELETE",
   });
-}
-
-export async function apiFetch(
-  endpoint: string,
-  options: RequestInit = {}
-): Promise<any> {
-  const token = localStorage.getItem("token");
-
-  const headers = {
-    ...options.headers,
-    Authorization: `Bearer ${token}`,
-  };
-
-  const response = await fetch(`${API_URL}/${endpoint}`, {
-    ...options,
-    headers,
-  });
-
-  if (!response.ok) {
-    throw new Error(`API request failed with status ${response.status}`);
-  }
-
-  if (response.status !== 204) {
-    return response.json();
-  }
 }
