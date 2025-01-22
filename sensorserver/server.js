@@ -108,6 +108,29 @@ io.on("connection", (socket) => {
   });
 });
 
+// Add route to get the latest sensor data by device ID
+app.get("/:id", async (req, res) => {
+  try {
+    const deviceId = req.params.id;
+    const sensorData = await SensorData.findOne({ deviceId })
+      .sort({ createdAt: -1 })
+      .exec();
+
+    if (sensorData) {
+      res.json(sensorData);
+    } else {
+      res.status(404).json({ message: "Sensor data not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching sensor data:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.get("/health", async (req, res) => {
+  res.json({ status: "UP" });
+});
+
 // Start the server
 const PORT = 5004;
 server.listen(PORT, () => {
