@@ -36,7 +36,7 @@ const predictionSchema = new mongoose.Schema(
 const Prediction = mongoose.model("Prediction", predictionSchema);
 
 // RabbitMQ Connection
-const rabbitMQUrl = "amqp://rabbitmq";
+const rabbitMQUrl = "amqp://localhost";
 let channel;
 
 async function connectRabbitMQ() {
@@ -44,6 +44,8 @@ async function connectRabbitMQ() {
   channel = await connection.createChannel();
   await channel.assertQueue("prediction_requests", { durable: true });
   await channel.assertQueue("prediction_responses", { durable: true });
+  await channel.assertQueue("notification", { durable: true });
+
   console.log("Connected to RabbitMQ");
 
   // Consume prediction requests and simulate processing
@@ -74,7 +76,7 @@ async function connectRabbitMQ() {
     };
 
     // Simulate a delay of 1 minute
-    await new Promise((resolve) => setTimeout(resolve, 60000));
+    await new Promise((resolve) => setTimeout(resolve, 6000));
 
     // Publish the mock response to the response queue
     channel.sendToQueue(
@@ -82,6 +84,18 @@ async function connectRabbitMQ() {
       Buffer.from(JSON.stringify(mockResponse))
     );
     console.log("Mock prediction response sent:", mockResponse);
+
+    channel.sendToQueue(
+      "notification",
+      Buffer.from(
+        JSON.stringify({
+          to: request.email || "kiyyakebere@gmail.com",
+          subject: "EarlyVet Notification",
+          message: "Prediction Completed.",
+        })
+      )
+    );
+    console.log("Notification sent:");
 
     // Acknowledge the request message
     channel.ack(msg);
@@ -111,6 +125,7 @@ connectRabbitMQ();
 // API to request a prediction
 app.get("/predict/:livestockId", async (req, res) => {
   const { livestockId } = req.params;
+  const { email } = req.query;
   const id = `prediction-${Date.now()}`;
 
   // Create a new prediction entry in MongoDB
@@ -124,7 +139,7 @@ app.get("/predict/:livestockId", async (req, res) => {
     console.log("New prediction request saved to MongoDB:", newPrediction);
 
     // Publish the prediction request to RabbitMQ
-    const request = { id, livestockId };
+    const request = { id, livestockId, email };
     channel.sendToQueue(
       "prediction_requests",
       Buffer.from(JSON.stringify(request))
