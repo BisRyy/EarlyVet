@@ -41,8 +41,14 @@
    - Facilitates appointment booking and communication between stakeholders.
 
 8. **Video Chat Service**:
+
    - Provides live video conferencing capabilities for farmers and veterinarians.
    - Integrated into the Telemedicine Service to enhance remote consultations.
+
+9. **Mobile Application**:
+
+   - Offers a user-friendly interface for farmers and veterinarians to interact with the system.
+   - Supports both mobile and desktop platforms for ease of access.
 
 ---
 
@@ -152,7 +158,18 @@
 - **Key Files**:
   - `videochat/src/`: Logic for video chat functionality. [In Progress]
 
-### **9. RabbitMQ**
+### **9. Mobile Application**
+
+- **Purpose**: Offers a user-friendly interface for interacting with the system.
+- **Features**:
+  - Supports both mobile and desktop platforms.
+  - Allows farmers and veterinarians to access system functionalities.
+- **Key Files**:
+  - `earlyapp/`:Flutter code for the mobile application.
+
+![Mobile App](/assets/15.png)
+
+### **10. RabbitMQ**
 
 - **Purpose**: Acts as a message broker for asynchronous communication between services.
 - **Features**:
