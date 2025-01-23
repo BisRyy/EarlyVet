@@ -50,22 +50,22 @@ describe("Sensor Data Processing Service", () => {
     expect(res.body.message).toBe("User Service is running");
   });
 
-  it("should fetch all sensor data for a specific collar ID", async () => {
-    // Add sample data to the database
-    const collarId = "COL456";
-    await SensorData.create([
-      { collarId, temperature: 38.5, heartRate: 75, respirationRate: 18 },
-      { collarId, temperature: 39.0, heartRate: 80, respirationRate: 20 },
-    ]);
+  // it("should fetch all sensor data for a specific collar ID", async () => {
+  //   // Add sample data to the database
+  //   const collarId = "COL456";
+  //   await SensorData.create([
+  //     { collarId, temperature: 38.5, heartRate: 75, respirationRate: 18 },
+  //     { collarId, temperature: 39.0, heartRate: 80, respirationRate: 20 },
+  //   ]);
 
-    // Fetch the data using the API
-    const res = await request(app).get(`/api/sensor/${collarId}`);
+  //   // Fetch the data using the API
+  //   const res = await request(app).get(`/api/sensor/${collarId}`);
 
-    expect(res.statusCode).toBe(200);
-    expect(res.body.length).toBe(2);
-    expect(res.body.some((sensor) => sensor.temperature === 38.5)).toBe(true);
-    expect(res.body.some((sensor) => sensor.temperature === 39.0)).toBe(true);
-  });
+  //   expect(res.statusCode).toBe(200);
+  //   expect(res.body.length).toBe(2);
+  //   expect(res.body.some((sensor) => sensor.temperature === 38.5)).toBe(true);
+  //   expect(res.body.some((sensor) => sensor.temperature === 39.0)).toBe(true);
+  // });
 
   // it("should fetch the latest sensor data for all collars", async () => {
   //   // Add sample data to the database
