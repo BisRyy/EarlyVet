@@ -42,6 +42,14 @@ describe("Sensor Data Processing Service", () => {
     expect(storedData.respirationRate).toBe(22);
   });
 
+  it("should check server health", async () => {
+    const res = await request(app).get("/api/sensor/health");
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty("message");
+    expect(res.body.message).toBe("User Service is running");
+  });
+
   it("should fetch all sensor data for a specific collar ID", async () => {
     // Add sample data to the database
     const collarId = "COL456";

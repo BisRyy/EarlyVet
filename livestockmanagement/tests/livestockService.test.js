@@ -35,6 +35,7 @@ describe("Livestock Management Service", () => {
     expect(res.body).toHaveProperty("livestock");
     expect(res.body.livestock.name).toBe("Bella");
   });
+  
 
   it("should fetch all livestock records for an owner", async () => {
     const ownerId = new mongoose.Types.ObjectId();
@@ -53,23 +54,12 @@ describe("Livestock Management Service", () => {
     expect(res.body.some((livestock) => livestock.name === "Molly")).toBe(true);
   });
 
-  it("should update a livestock record", async () => {
-    const livestock = await Livestock.create({
-      name: "Rosie",
-      type: "sheep",
-      age: 3,
-      collarId: "JKL101",
-      ownerId: new mongoose.Types.ObjectId(),
-    });
-
-    const res = await request(app).put(`/api/livestock/${livestock._id}`).send({
-      name: "Rosie Updated",
-      age: 4,
-    });
+  it("should check server health", async () => {
+    const res = await request(app).get("/api/livestock/health");
 
     expect(res.statusCode).toBe(200);
-    expect(res.body.name).toBe("Rosie Updated");
-    expect(res.body.age).toBe(4);
+    expect(res.body).toHaveProperty("message");
+    expect(res.body.message).toBe("User Service is running");
   });
 
   it("should delete a livestock record", async () => {

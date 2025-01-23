@@ -33,4 +33,8 @@ const sendSMSNotification = async (req, res) => {
   }
 };
 
-module.exports = { sendEmailNotification, sendSMSNotification };
+const checkHealth = (req, res) => {
+  res.status(200).json({ message: "User Service is running" });
+};
+
+module.exports = { sendEmailNotification, sendSMSNotification, checkHealth };
