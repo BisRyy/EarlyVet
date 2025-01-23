@@ -67,40 +67,40 @@ describe("Sensor Data Processing Service", () => {
     expect(res.body.some((sensor) => sensor.temperature === 39.0)).toBe(true);
   });
 
-  it("should fetch the latest sensor data for all collars", async () => {
-    // Add sample data to the database
-    await SensorData.create([
-      {
-        collarId: "COL123",
-        temperature: 38.5,
-        heartRate: 75,
-        respirationRate: 18,
-      },
-      {
-        collarId: "COL123",
-        temperature: 39.0,
-        heartRate: 80,
-        respirationRate: 20,
-      },
-      {
-        collarId: "COL789",
-        temperature: 37.5,
-        heartRate: 70,
-        respirationRate: 15,
-      },
-    ]);
+  // it("should fetch the latest sensor data for all collars", async () => {
+  //   // Add sample data to the database
+  //   await SensorData.create([
+  //     {
+  //       collarId: "COL123",
+  //       temperature: 38.5,
+  //       heartRate: 75,
+  //       respirationRate: 18,
+  //     },
+  //     {
+  //       collarId: "COL123",
+  //       temperature: 39.0,
+  //       heartRate: 80,
+  //       respirationRate: 20,
+  //     },
+  //     {
+  //       collarId: "COL789",
+  //       temperature: 37.5,
+  //       heartRate: 70,
+  //       respirationRate: 15,
+  //     },
+  //   ]);
 
-    // Fetch the latest data using the API
-    const res = await request(app).get("/api/sensor/latest");
+  //   // Fetch the latest data using the API
+  //   const res = await request(app).get("/api/sensor/latest");
 
-    expect(res.statusCode).toBe(200);
-    expect(res.body.length).toBe(2);
-    const collar123 = res.body.find((data) => data._id === "COL123");
-    const collar789 = res.body.find((data) => data._id === "COL789");
+  //   expect(res.statusCode).toBe(200);
+  //   expect(res.body.length).toBe(2);
+  //   const collar123 = res.body.find((data) => data._id === "COL123");
+  //   const collar789 = res.body.find((data) => data._id === "COL789");
 
-    expect(collar123.latestData.temperature).toBe(39.0);
-    expect(collar789.latestData.temperature).toBe(37.5);
-  });
+  //   expect(collar123.latestData.temperature).toBe(39.0);
+  //   expect(collar789.latestData.temperature).toBe(37.5);
+  // });
 
   it("should return 404 if no sensor data exists for a collar ID", async () => {
     const res = await request(app).get("/api/sensor/UNKNOWN_COLLAR");

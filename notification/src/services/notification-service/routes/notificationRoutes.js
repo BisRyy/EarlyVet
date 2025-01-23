@@ -4,9 +4,6 @@ const {
   sendSMSNotification,
   checkHealth,
 } = require("../controllers/notificationController");
-const {
-  route,
-} = require("../../../../../livestockmanagement/src/services/livestock-service");
 
 const router = express.Router();
 
