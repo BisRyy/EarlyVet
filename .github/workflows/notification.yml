@@ -20,7 +20,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd livestockmanagement
+        cd notification
         npm install
       env:
         MONGO_URI: mongodb+srv://earlyvet:32mCb6zwTvpOFYR1@earlyvet.n6njn.mongodb.net/main?retryWrites=true&w=majority&appName=Earlyvet
