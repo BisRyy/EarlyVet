@@ -40,7 +40,8 @@ const sensorSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-sensorSchema.index({ deviceId: 1 }, { unique: true }); // Ensure unique deviceId for upserts
+// Remove unique index to store all recordings
+// sensorSchema.index({ deviceId: 1 }, { unique: true });
 
 const SensorData = mongoose.model("SensorData", sensorSchema);
 
@@ -66,13 +67,9 @@ async function receiveSensorData() {
         const sensorData = JSON.parse(msg.content.toString());
         console.log("Received from RabbitMQ:", sensorData);
 
-        // Upsert (insert or update) the data in MongoDB
-        await SensorData.findOneAndUpdate(
-          { deviceId: sensorData.deviceId }, // Match by deviceId
-          sensorData, // Update with new data
-          { upsert: true, new: true } // Insert if not exists, return the updated document
-        );
-        console.log("Upserted to MongoDB:", sensorData);
+        // Save all sensor recordings
+        await SensorData.create(sensorData);
+        console.log("Saved to MongoDB:", sensorData);
 
         // Emit the latest data to WebSocket clients
         io.emit("sensorData", sensorData);
@@ -95,9 +92,22 @@ io.on("connection", (socket) => {
   console.log("A client connected:", socket.id);
 
   // Send the latest data for all devices on connection
-  SensorData.find()
-    .then((allData) => {
-      allData.forEach((data) => {
+  SensorData.aggregate([
+    {
+      $sort: { createdAt: -1 },
+    },
+    {
+      $group: {
+        _id: "$deviceId",
+        latest: { $first: "$$ROOT" },
+      },
+    },
+    {
+      $replaceRoot: { newRoot: "$latest" },
+    },
+  ])
+    .then((latestData) => {
+      latestData.forEach((data) => {
         socket.emit("sensorData", data);
       });
     })

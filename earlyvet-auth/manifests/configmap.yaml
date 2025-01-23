@@ -7,3 +7,4 @@ data:
   MYSQL_USER: auth_user
   MYSQL_DB: auth
   MYSQL_PORT: "3306"
+  NEXT_PUBLIC_SENSOR_SERVICE: "http://sensorserver.com"
