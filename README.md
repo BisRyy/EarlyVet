@@ -54,8 +54,10 @@
 
 ## **Directory Structure Overview**
 
+![RabbitMQ Dashboard](/assets/arc.png)
+
 ```
-└── bisryy-earlyvet/
+└── bisryy/Earlyvet/
     ├── diseaseprediction/          # Handles disease prediction using machine learning
     ├── earlyapp/                   # Mobile and desktop application for user interaction
     ├── earlyvet-auth/              # User authentication and authorization
