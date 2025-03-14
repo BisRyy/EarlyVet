@@ -28,6 +28,16 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+// get all users role vet
+const getAllVets = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 const getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -114,4 +124,5 @@ module.exports = {
   loginUser,
   verifyToken,
   checkHealth,
+  getAllVets,
 };

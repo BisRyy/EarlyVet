@@ -8,6 +8,7 @@ const {
   loginUser,
   verifyToken,
   checkHealth,
+  getAllVets,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -17,6 +18,7 @@ router.post("/verify", verifyToken);
 router.get("/health", checkHealth);
 router.post("/register", createUser);
 router.post("/login", loginUser);
+router.get("/vets", getAllVets);
 router.get("/:id", getUserById);
 router.put("/:id", updateUser);
 router.delete("/:id", deleteUser);

@@ -17,13 +17,17 @@ router.post(
     const { userId } = req.body;
 
     if (!userId) {
-      return res.status(400).json({ success: false, message: "User ID is required" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User ID is required" });
     }
 
     const isValid = await AuthenticationService.validateUser(userId);
 
     if (!isValid) {
-      return res.status(401).json({ success: false, message: "Invalid user ID" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid user ID" });
     }
 
     res.json({ success: true, message: "User is valid" });
@@ -56,7 +60,9 @@ router.post(
     const { socketId } = req.body;
 
     if (!socketId) {
-      return res.status(400).json({ success: false, message: "Socket ID is required" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Socket ID is required" });
     }
 
     await User.markInactive(socketId);

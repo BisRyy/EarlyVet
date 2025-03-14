@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { Track } from "livekit-client";
 import { useAuth } from "@/contexts/auth-context";
 
-export default function Page() {
+export default function RoomPage() {
   const { user } = useAuth();
 
   // TODO: get user input for room and name
@@ -51,9 +51,8 @@ export default function Page() {
       serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
       // Use the default LiveKit theme for nice styles.
       data-lk-theme="default"
-      style={{ height: "100dvh" }}
+      style={{ height: "80dvh" }}
     >
-
       {/* Your custom component with basic video conferencing functionality. */}
       <MyVideoConference />
       {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
