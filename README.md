@@ -248,23 +248,6 @@
 
 ---
 
-## **Team Members**
-
-| Name              | ID          |
-| ----------------- | ----------- |
-| Amanuel Ayana     | ETS 0110/13 |
-| Amanuel Dagnachew | ETS 0112/13 |
-| Amanuel Mandefro  | ETS 0121/13 |
-| Amanuel Solomon   | ETS 0126/13 |
-| Ararsa Derese     | ETS 0152/13 |
-| Beamanuel Tesfaye | ETS 0180/13 |
-| Birhanu Worku     | ETS 0279/13 |
-| Biruk Mesfin      | ETS 0290/13 |
-| Bisrat Kebere     | ETS 0306/13 |
-| Biyaol Mesay      | ETS 0309/13 |
-
----
-
 ## **License**
 
 This project is licensed under the MIT License.
